@@ -4,7 +4,7 @@ Simple static HTML/JS test bed that dynamically injects iframes in different way
 
 ## Run locally
 
-From the repository root (`/home/runner/work/frame-injection-test-bed/frame-injection-test-bed`):
+From the repository root:
 
 ```bash
 python3 -m http.server 8080

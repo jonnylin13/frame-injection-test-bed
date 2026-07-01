@@ -51,7 +51,7 @@
   }
 
   function clearFrames() {
-    framesContainer.innerHTML = "";
+    framesContainer.replaceChildren();
     frameCount = 0;
   }
 
