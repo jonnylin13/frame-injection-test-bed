@@ -12,8 +12,18 @@
     return `${method} #${frameCount}`;
   }
 
+  function escapeHtml(value) {
+    return value
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
   function createSrcDoc(label) {
-    return `<!doctype html><html><body style="font-family:Arial,sans-serif;margin:8px;"><strong>${label}</strong><div>Injected at ${new Date().toLocaleTimeString()}</div></body></html>`;
+    const safeLabel = escapeHtml(label);
+    return `<!doctype html><html><body style="font-family:Arial,sans-serif;margin:8px;"><strong>${safeLabel}</strong><div>Injected at ${new Date().toLocaleTimeString()}</div></body></html>`;
   }
 
   function addViaCreateElement() {
@@ -38,16 +48,27 @@
     const iframe = document.createElement("iframe");
     iframe.title = label;
     iframe.src = "about:blank";
-    framesContainer.appendChild(iframe);
 
-    const doc = iframe.contentWindow && iframe.contentWindow.document;
-    if (!doc) {
-      return;
+    let hasWritten = false;
+    function writeIntoIframe() {
+      if (hasWritten) {
+        return;
+      }
+
+      const doc = iframe.contentWindow && iframe.contentWindow.document;
+      if (!doc) {
+        return;
+      }
+
+      hasWritten = true;
+      doc.open();
+      doc.write(createSrcDoc(label));
+      doc.close();
     }
 
-    doc.open();
-    doc.write(createSrcDoc(label));
-    doc.close();
+    iframe.addEventListener("load", writeIntoIframe, { once: true });
+    framesContainer.appendChild(iframe);
+    writeIntoIframe();
   }
 
   function clearFrames() {
