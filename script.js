@@ -36,10 +36,11 @@
 
   function addViaAdjacentHtml() {
     const label = nextLabel("insertAdjacentHTML");
-    const srcdoc = createSrcDoc(label).replace(/"/g, "&quot;");
+    const safeLabel = escapeHtml(label);
+    const srcdoc = createSrcDoc(label);
     framesContainer.insertAdjacentHTML(
       "beforeend",
-      `<iframe title="${label}" srcdoc="${srcdoc}"></iframe>`
+      `<iframe title="${safeLabel}" srcdoc="${srcdoc}"></iframe>`
     );
   }
 
