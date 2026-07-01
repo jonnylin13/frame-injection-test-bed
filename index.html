@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Frame Injection Test Bed</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 2rem;
+        line-height: 1.4;
+      }
+      .controls {
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+        margin-bottom: 1rem;
+      }
+      button {
+        padding: 0.5rem 0.75rem;
+        cursor: pointer;
+      }
+      #frames {
+        display: grid;
+        gap: 0.75rem;
+      }
+      iframe {
+        width: 100%;
+        min-height: 90px;
+        border: 1px solid #ccc;
+      }
+      .note {
+        color: #555;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Frame Injection Test Bed</h1>
+    <p class="note">Inject iframes dynamically using different JavaScript techniques.</p>
+
+    <div class="controls">
+      <button id="btn-create-element" type="button">createElement + appendChild</button>
+      <button id="btn-adjacent-html" type="button">insertAdjacentHTML</button>
+      <button id="btn-document-write" type="button">about:blank + document.write</button>
+      <button id="btn-clear" type="button">Clear Frames</button>
+    </div>
+
+    <section id="frames" aria-live="polite"></section>
+
+    <script src="script.js"></script>
+  </body>
+</html>
