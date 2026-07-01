@@ -13,7 +13,7 @@
   }
 
   function escapeHtml(value) {
-    return value
+    return String(value ?? "")
       .replace(/&/g, "&amp;")
       .replace(/</g, "&lt;")
       .replace(/>/g, "&gt;")
@@ -37,11 +37,18 @@
   function addViaAdjacentHtml() {
     const label = nextLabel("insertAdjacentHTML");
     const safeLabel = escapeHtml(label);
-    const srcdoc = createSrcDoc(label);
+
     framesContainer.insertAdjacentHTML(
       "beforeend",
-      `<iframe title="${safeLabel}" srcdoc="${srcdoc}"></iframe>`
+      `<iframe title="${safeLabel}"></iframe>`
     );
+
+    const iframe = framesContainer.lastElementChild;
+    if (!(iframe instanceof HTMLIFrameElement)) {
+      return;
+    }
+
+    iframe.srcdoc = createSrcDoc(label);
   }
 
   function addViaDocumentWrite() {
