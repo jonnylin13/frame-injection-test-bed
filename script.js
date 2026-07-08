@@ -141,8 +141,8 @@
     const label = nextLabel("cross-origin src");
     const iframe = document.createElement("iframe");
     iframe.title = label;
-    iframe.src = "https://www.google.com";
-    wrapFrame(iframe, `cross-origin — src="https://www.google.com" (likely blocked by X-Frame-Options)`);
+    iframe.src = "https://example.com";
+    wrapFrame(iframe, `cross-origin — src="https://example.com" (IANA example domain, no X-Frame-Options)`);
   }
 
   function addViaDataUrl() {
