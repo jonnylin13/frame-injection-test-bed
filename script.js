@@ -73,7 +73,10 @@
     const iframe = document.createElement("iframe");
     iframe.title = label;
     iframe.srcdoc = createSrcDoc(label);
-    wrapFrame(iframe, `srcdoc — src type: srcdoc attribute, via createElement + appendChild`);
+    wrapFrame(
+      iframe,
+      `srcdoc — src type: srcdoc attribute, via createElement + appendChild`,
+    );
   }
 
   function addViaAdjacentHtml() {
@@ -83,7 +86,7 @@
     // Insert the wrapper + a placeholder iframe, then upgrade it.
     framesContainer.insertAdjacentHTML(
       "beforeend",
-      `<div class="frame-entry"><p class="frame-label">srcdoc — src type: srcdoc attribute, via insertAdjacentHTML</p><iframe title="${safeLabel}"></iframe></div>`
+      `<div class="frame-entry"><p class="frame-label">srcdoc — src type: srcdoc attribute, via insertAdjacentHTML</p><iframe title="${safeLabel}"></iframe></div>`,
     );
 
     const entry = framesContainer.lastElementChild;
@@ -133,7 +136,9 @@
     iframe.title = label;
     iframe.src = url;
 
-    iframe.addEventListener("load", () => URL.revokeObjectURL(url), { once: true });
+    iframe.addEventListener("load", () => URL.revokeObjectURL(url), {
+      once: true,
+    });
     wrapFrame(iframe, `blob: URL — src type: blob:, via URL.createObjectURL`);
   }
 
@@ -142,7 +147,10 @@
     const iframe = document.createElement("iframe");
     iframe.title = label;
     iframe.src = "https://example.com";
-    wrapFrame(iframe, `cross-origin — src="https://example.com" (IANA example domain, no X-Frame-Options)`);
+    wrapFrame(
+      iframe,
+      `cross-origin — src="https://example.com" (IANA example domain, no X-Frame-Options)`,
+    );
   }
 
   function addViaDataUrl() {
@@ -153,7 +161,10 @@
     // data: navigation is blocked in Chrome 60+ for top-level and sandboxed frames;
     // may still work in Firefox or when served from file://
     iframe.src = `data:text/html,${encodeURIComponent(html)}`;
-    wrapFrame(iframe, `data: URL — src type: data:text/html (blocked in Chrome 60+ for security)`);
+    wrapFrame(
+      iframe,
+      `data: URL — src type: data:text/html (blocked in Chrome 60+ for security)`,
+    );
   }
 
   function clearFrames() {
@@ -161,12 +172,24 @@
     frameCount = 0;
   }
 
-  document.getElementById("btn-create-element")?.addEventListener("click", addViaCreateElement);
-  document.getElementById("btn-adjacent-html")?.addEventListener("click", addViaAdjacentHtml);
-  document.getElementById("btn-document-write")?.addEventListener("click", addViaDocumentWrite);
-  document.getElementById("btn-blob-url")?.addEventListener("click", addViaBlobUrl);
-  document.getElementById("btn-cross-origin")?.addEventListener("click", addViaCrossOrigin);
-  document.getElementById("btn-data-url")?.addEventListener("click", addViaDataUrl);
+  document
+    .getElementById("btn-create-element")
+    ?.addEventListener("click", addViaCreateElement);
+  document
+    .getElementById("btn-adjacent-html")
+    ?.addEventListener("click", addViaAdjacentHtml);
+  document
+    .getElementById("btn-document-write")
+    ?.addEventListener("click", addViaDocumentWrite);
+  document
+    .getElementById("btn-blob-url")
+    ?.addEventListener("click", addViaBlobUrl);
+  document
+    .getElementById("btn-cross-origin")
+    ?.addEventListener("click", addViaCrossOrigin);
+  document
+    .getElementById("btn-data-url")
+    ?.addEventListener("click", addViaDataUrl);
   document.getElementById("btn-clear")?.addEventListener("click", clearFrames);
 
   // --- Initialise static iframes that require JS ---
