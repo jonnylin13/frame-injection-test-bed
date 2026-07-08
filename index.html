@@ -10,42 +10,100 @@
         margin: 2rem;
         line-height: 1.4;
       }
+      h2 {
+        font-size: 1.05rem;
+        margin: 1.5rem 0 0.5rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: #444;
+      }
       .controls {
         display: flex;
-        gap: 0.75rem;
+        gap: 0.5rem;
         flex-wrap: wrap;
-        margin-bottom: 1rem;
+        margin-bottom: 0.75rem;
       }
       button {
-        padding: 0.5rem 0.75rem;
+        padding: 0.4rem 0.65rem;
         cursor: pointer;
+        font-size: 0.85rem;
       }
-      #frames {
+      .frame-grid {
         display: grid;
         gap: 0.75rem;
       }
-      iframe {
-        width: 100%;
-        min-height: 90px;
+      .frame-entry {
         border: 1px solid #ccc;
+        border-radius: 2px;
+        overflow: hidden;
+      }
+      .frame-label {
+        background: #f5f5f5;
+        border-bottom: 1px solid #ccc;
+        margin: 0;
+        padding: 3px 8px;
+        font-family: monospace;
+        font-size: 0.8rem;
+        color: #333;
+      }
+      .frame-entry iframe {
+        display: block;
+        width: 100%;
+        min-height: 240px;
+        border: none;
       }
       .note {
         color: #555;
+        margin-bottom: 0;
       }
     </style>
   </head>
   <body>
     <h1>Frame Injection Test Bed</h1>
-    <p class="note">Inject iframes dynamically using different JavaScript techniques.</p>
+    <p class="note">Test iframes with different src types, both static and dynamically injected.</p>
 
+    <h2>Static Iframes</h2>
+    <div class="frame-grid">
+
+      <div class="frame-entry">
+        <p class="frame-label">about:blank — src="about:blank" + document.write on load</p>
+        <iframe id="static-about-blank" src="about:blank" title="Static — about:blank"></iframe>
+      </div>
+
+      <div class="frame-entry">
+        <p class="frame-label">srcdoc — srcdoc attribute (inline HTML)</p>
+        <iframe id="static-srcdoc" title="Static — srcdoc"></iframe>
+      </div>
+
+      <div class="frame-entry">
+        <p class="frame-label">blob: URL — src="blob:..." (URL.createObjectURL, set on page load)</p>
+        <iframe id="static-blob" title="Static — blob: URL"></iframe>
+      </div>
+
+      <div class="frame-entry">
+        <p class="frame-label">cross-origin — src="https://www.google.com" (likely blocked by X-Frame-Options)</p>
+        <iframe src="https://www.google.com" title="Static — cross-origin (google.com)"></iframe>
+      </div>
+
+      <div class="frame-entry">
+        <p class="frame-label">data: URL — src="data:text/html,..." (blocked in Chrome 60+ for security)</p>
+        <iframe id="static-data" title="Static — data: URL"></iframe>
+      </div>
+
+    </div>
+
+    <h2>Dynamic Injection</h2>
     <div class="controls">
-      <button id="btn-create-element" type="button">createElement + appendChild</button>
-      <button id="btn-adjacent-html" type="button">insertAdjacentHTML</button>
+      <button id="btn-create-element" type="button">srcdoc (createElement)</button>
+      <button id="btn-adjacent-html" type="button">srcdoc (insertAdjacentHTML)</button>
       <button id="btn-document-write" type="button">about:blank + document.write</button>
+      <button id="btn-blob-url" type="button">blob: URL</button>
+      <button id="btn-cross-origin" type="button">cross-origin src</button>
+      <button id="btn-data-url" type="button">data: URL</button>
       <button id="btn-clear" type="button">Clear Frames</button>
     </div>
 
-    <section id="frames" aria-live="polite"></section>
+    <div id="frames" class="frame-grid" aria-live="polite"></div>
 
     <script src="script.js"></script>
   </body>
